@@ -20,6 +20,22 @@ class Factor(Expression):
     """An abstract factor representation, i.e. an element of a term."""
     sign: Sign = Sign.POSITIVE
 
+    def _tex(self):
+        """The TeX representation without sign.
+
+        This should be overridden by the child class.
+        """
+        raise NotImplementedError
+
+    @property
+    def tex(self):
+        """The TeX representation of the Factor.
+        """
+        if self.sign == Sign.NEGATIVE:
+            return f'{self.sign}{self._tex()}'
+        else:
+            return f'{self._tex()}'
+
 
 @dataclass
 class Variable(Factor):
@@ -31,6 +47,10 @@ class Variable(Factor):
     def __eq__(self, other):
         return self.symbol == other.symbol
 
+    def _tex(self):
+        """The TeX representation of the variable."""
+        return self.symbol
+
 
 @dataclass
 class Brackets(Factor):
@@ -38,6 +58,10 @@ class Brackets(Factor):
     An expression contained inside brackets.
     """
     content: Expression
+
+    def _tex(self):
+        """The TeX representation of the brackets."""
+        return f'({{self.content.tex}})'
 
 
 @dataclass
@@ -47,16 +71,15 @@ class Number(Factor):
     """
 
     def __init__(self, value: Union[int, float]):
-        self.value = abs(value)
+        self.absvalue = abs(value)
         self.sign = Sign.POSITIVE if value >= 0 else Sign.NEGATIVE
 
-    @property
-    def tex(self):
+    def _tex(self):
         """The TeX representation of the number."""
         if self.sign == Sign.NEGATIVE:
-            return f'{self.sign}{self.value}'
+            return f'{self.sign}{self.absvalue}'
         else:
-            return f'{self.value}'
+            return f'{self.absvalue}'
 
 
 @dataclass
@@ -67,8 +90,7 @@ class Fraction(Factor):
     numerator: Expression
     denominator: Expression
 
-    @property
-    def tex(self):
+    def _tex(self):
         """The TeX representation of the fraction."""
         return f'\\frac{{{self.numerator.tex}}}{{{self.denominator.tex}}}'
 
@@ -78,11 +100,10 @@ class Power(Factor):
     """
     A power with a base and an exponent, e.g. 2^x.
     """
-    base: Factor
+    base: Expression
     exponent: Expression
 
-    @property
-    def tex(self):
+    def _tex(self):
         """The TeX representation of the power."""
         if (self.base.sign == Sign.NEGATIVE
                 or isinstance(self.base, Power)
@@ -100,8 +121,7 @@ class Root(Factor):
     radicand: Expression
     index: Number
 
-    @property
-    def tex(self):
+    def _tex(self):
         """The TeX representation of the root."""
         if self.index.value == 2:
             return f'\\sqrt{{{self.radicand.tex}}}'
