@@ -28,9 +28,6 @@ class Variable(Factor):
     """
     symbol: str
 
-    def __eq__(self, other):
-        return self.symbol == other.symbol
-
 
 @dataclass
 class Brackets(Factor):
