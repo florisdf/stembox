@@ -37,6 +37,7 @@ class Monomial(Expression):
                 if not p.endswith('.base')]
 
     def _get_no_expon_vars(self) -> List[Variable]:
+        """Return the variables that lack an exponent."""
         return [self.get_at_path(path)
                 for path in self._get_no_expon_var_paths()]
 
@@ -59,7 +60,8 @@ class Monomial(Expression):
             var.label = None
 
         result = Explanation(
-            description=xpl.SEARCH_MONOM_VARS_RES_DESCR(monom_res._get_var_paths()),
+            description=xpl.SEARCH_MONOM_VARS_RESULT_DESCR(
+                monom_res._get_var_paths()),
             illustration=monom_res)
 
         return Solution([Step(purpose=purpose,
@@ -80,7 +82,8 @@ class Monomial(Expression):
         for i, var in enumerate(self._get_no_expon_vars()):
             var.mark = i
 
-        # In the old monomial, label the variables that do not have an exponent
+        # Copy the monomial and, in the old monomial, label the variables that
+        # do not have an exponent
         old_monom = deepcopy(self)
         for i, p in enumerate(old_monom._get_no_expon_var_paths()):
             var = old_monom.get_at_path(p)
@@ -96,7 +99,13 @@ class Monomial(Expression):
             illustration=Equivalence([old_monom, deepcopy(self)])
         )
 
-        return Solution([Step(purpose=purpose, execution=execution)])
+        # RESULT
+        result = Explanation(
+            decription=xpl.UNIT_VAR_EXPONENT_RESULT_DESCR(),
+            illustration=deepcopy(self))
+
+        return Solution([Step(purpose=purpose, execution=execution,
+                              result=result)])
 
     def solve_var_expons(self) -> Solution:
         """Return the solution for finding the exponents of each variable"""

@@ -8,7 +8,7 @@ def SEARCH_MONOM_VARS_EXEC_LABEL(var_idx):
     return f'variabele {var_idx}'
 
 
-def SEARCH_MONOM_VARS_RES_DESCR(var_paths):
+def SEARCH_MONOM_VARS_RESULT_DESCR(var_paths):
     var_link = '!(gevonden variabele)[{0} "variabele"]'
 
     if len(var_paths) == 1:
@@ -37,6 +37,10 @@ def UNIT_VAR_EXPONENT_EXEC_DESCR():
             + '!(variabelen exponent van 1 geven)[$]')
 
 
+def UNIT_VAR_EXPONENT_RESULT_DESCR():
+    return ('We schrijven de eenterm als !(nieuwe eenterm)[$]')
+
+
 # Searching the exponents of the monomial variables
 def SEARCH_VAR_EXPON_PURP_DESCR(num_vars):
     """
@@ -55,7 +59,7 @@ def SEARCH_VAR_EXPON_EXEC_LABEL(var_path):
     return f'exponent van !(gevonden exponent)[{var_path} "exponent"]'
 
 
-def SEARCH_VAR_EXPON_RES_DESCR(var_expons):
+def SEARCH_VAR_EXPON_RESULT_DESCR(var_expons):
     """
     Args:
         var_expons (dict): a dictionary with the illustration path of the
