@@ -72,14 +72,23 @@ class Monomial(Expression):
         """
         Return the solution for explicitely adding a unit exponent to all
         variables that do not have an exponent.
+
+        After this, the variables in `self` will all contain an exponent.
         """
+        no_expon_vars = self._get_no_expon_var_paths()
+
+        if len(no_expon_vars) == 0:
+            # All variables have an exponent, so return a Solution without any
+            # steps
+            return Solution()
+
         # PURPOSE
         purpose = Explanation(
             description=xpl.UNIT_VAR_EXPONENT_PURP_DESCR()
         )
 
         # EXECUTION
-        for i, var in enumerate(self._get_no_expon_vars()):
+        for i, var in enumerate(no_expon_vars):
             var.mark = i
 
         # Copy the monomial and, in the old monomial, label the variables that
