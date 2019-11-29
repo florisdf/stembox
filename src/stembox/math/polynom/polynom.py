@@ -104,20 +104,21 @@ def solve_unit_var_exponent(monomial: Monomial) -> Solution:
         var = old_monom.get_at_path(p)
         var.label = xpl.UNIT_VAR_EXPONENT_EXEC_LABEL()
 
-    # In the new monomial, i.e. `monomial`, wrap Powers around variables
-    for i, p in enumerate(_get_no_expon_var_paths(monomial)):
-        var = monomial.get_at_path(p)
-        monomial.set_at_path(p, Power(base=var, exponent=Number(1)))
+    # In the new monomial, wrap Powers around variables
+    new_monomial = deepcopy(monomial)
+    for i, p in enumerate(_get_no_expon_var_paths(new_monomial)):
+        var = new_monomial.get_at_path(p)
+        new_monomial.set_at_path(p, Power(base=var, exponent=Number(1)))
 
     execution = Explanation(
         description=xpl.UNIT_VAR_EXPONENT_EXEC_DESCR(),
-        illustration=Equivalence([old_monom, deepcopy(monomial)])
+        illustration=Equivalence([old_monom, deepcopy(new_monomial)])
     )
 
     # RESULT
     result = Explanation(
         decription=xpl.UNIT_VAR_EXPONENT_RESULT_DESCR(),
-        illustration=deepcopy(monomial))
+        illustration=deepcopy(new_monomial))
 
     return Solution([Step(purpose=purpose, execution=execution,
                           result=result)])
