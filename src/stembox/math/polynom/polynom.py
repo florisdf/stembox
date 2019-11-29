@@ -79,17 +79,28 @@ def solve_vars(monomial: Monomial) -> Solution:
                     value=var_paths)
 
 
-def solve_unit_var_exponent(monomial: Monomial) -> Solution:
+def solve_unit_var_exponent(monomial: Monomial,
+                            var_paths: List[str]) -> Solution:
     """
     Return the solution for explicitely adding a unit exponent to all
     variables that do not have an exponent.
+
+    The `value` property of the returned `Solution` will contain the monomial
+    version with all explicit variable exponents.
+
+    Args:
+        monomial (Monomial): the monomial to add unit exponents to the
+        variables
+        var_paths (List[str]): the illustration paths of the variables that
+        should obtain an explicit exponent
     """
-    no_expon_vars = _get_no_expon_var_paths(monomial)
+    no_expon_vars = ({*_get_no_expon_var_paths(monomial)}
+                     .intersection({*var_paths}))
 
     if len(no_expon_vars) == 0:
         # All variables have an exponent, so return a Solution without any
         # steps
-        return Solution()
+        return Solution(value=deepcopy(monomial))
 
     # PURPOSE
     purpose = Explanation(
@@ -128,20 +139,30 @@ def solve_unit_var_exponent(monomial: Monomial) -> Solution:
                     value=deepcopy(new_monomial))
 
 
-def solve_var_expons(monomial: Monomial) -> Solution:
+def solve_find_var_expons(monomial: Monomial,
+                          var_paths: List[str]) -> Solution:
     """Return the solution for finding the exponents of each variable.
 
     The solution value will contain a dict with the illustration paths of the
     variables as key and the illustration path of the corresponding exponents
     as value.
+
+    Args:
+        monomial (Monomial): the monomial in which to search for the variable
+        exponents
+        var_paths (List[str]): a list of paths that contain the variables
     """
     # 1. Write 1 as exponent of variables with no exponent
-    solution = solve_unit_var_exponent(monomial)
+    solution = solve_unit_var_exponent(monomial, var_paths)
+
+    # All var_paths should now end with `.base`, as they are all wrapped inside
+    # a `Power` now
+    var_paths = [p if p.endswith('.base') else p + '.base'
+                 for p in var_paths]
 
     # 2. Mark the exponents
     if len(solution) > 0:
-        monomial = deepcopy(solution[-1].result.illustration)
-    var_paths = _get_var_paths(monomial)
+        monomial = deepcopy(solution.value)
 
     # PURPOSE
     purpose = Explanation(
