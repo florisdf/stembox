@@ -13,7 +13,7 @@ class Monomial(Expression):
         self.factors = factors
 
 
-def _get_var_paths(monomial) -> List[str]:
+def _get_var_paths(monomial: Monomial) -> List[str]:
     vars = []
     for i, f in enumerate(monomial.factors):
         path = '$.factors'
@@ -29,24 +29,24 @@ def _get_var_paths(monomial) -> List[str]:
     return vars
 
 
-def _get_vars(monomial) -> List[Variable]:
+def _get_vars(monomial: Monomial) -> List[Variable]:
     return [monomial.get_at_path(path)
             for path in _get_var_paths(monomial)]
 
 
-def _get_no_expon_var_paths(monomial) -> List[str]:
+def _get_no_expon_var_paths(monomial: Monomial) -> List[str]:
     """Return the paths of the variables that lack an exponent."""
     return [p for p in _get_var_paths(monomial)
             if not p.endswith('.base')]
 
 
-def _get_no_expon_vars(monomial) -> List[Variable]:
+def _get_no_expon_vars(monomial: Monomial) -> List[Variable]:
     """Return the variables that lack an exponent."""
     return [monomial.get_at_path(path)
             for path in _get_no_expon_var_paths(monomial)]
 
 
-def solve_vars(monomial) -> Solution:
+def solve_vars(monomial: Monomial) -> Solution:
     """Return the solution for finding the variables in the given monomial.
     """
     # PURPOSE
@@ -76,7 +76,7 @@ def solve_vars(monomial) -> Solution:
                           result=result)])
 
 
-def solve_unit_var_exponent(monomial) -> Solution:
+def solve_unit_var_exponent(monomial: Monomial) -> Solution:
     """
     Return the solution for explicitely adding a unit exponent to all
     variables that do not have an exponent.
@@ -123,7 +123,7 @@ def solve_unit_var_exponent(monomial) -> Solution:
                           result=result)])
 
 
-def solve_var_expons(monomial) -> Solution:
+def solve_var_expons(monomial: Monomial) -> Solution:
     """Return the solution for finding the exponents of each variable"""
     # 1. Write 1 as exponent of variables with no exponent
     solution = solve_unit_var_exponent(monomial)
@@ -161,7 +161,7 @@ def solve_var_expons(monomial) -> Solution:
     return solution
 
 
-def solve_grade(monomial) -> Solution:
+def solve_grade(monomial: Monomial) -> Solution:
     # Find variables
     # var_sol = solve_vars(monomial)
 
