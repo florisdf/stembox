@@ -4,36 +4,62 @@ from typing import List
 
 
 @dataclass
-class Description:
-    """Describes verbally what happens in a certain part of a step.
-
-    A `Description` can contain links to urls or to the elements of any
-    `Illustration` that is contained in the same series of steps. Note that a
-    referenced `Illustration` need not have the same *level* as the
-    `Description`. It can also be an `Illustration` in a *substep* or a
-    *superstep*.
-
-    Args:
-        text (str): the description text
-        short (str): (optional) a short version of the description text
-    """
-    text: str
-    short: str = None
-
-
-@dataclass
 class Illustration:
     """Illustrates a verbal description.
 
     It could be a figure, but also an equation or a mathematical expression.
+
+    Args:
+        label (str): (optional) a label that provides some extra information
+        mark (int): (optional) a global mark id that allows e.g. to give the
+        same color to two occurences of the same variable or to show which
+        terms have changed during a calculation.
     """
+    label: str = None
+    mark: int = None
+
+    def get_at_path(self, path: str):
+        """Return the illustration element that corresponds to the given path.
+
+        Args:
+            path (str): the path to the illustration element, e.g.
+            `"$.factors[0]"`. The root `Illustration` object is represented
+            with `$`.
+        """
+        return eval(f'self{path[1:]}', {'self': self})
+
+    def set_at_path(self, path: str, val):
+        """Put the object in the given illustration path.
+
+        Args:
+            path (str): the path where to put the `val`, e.g. `"$.factors[0]"`.
+            The root `Illustration` object is represented with `$`.
+            val (Illustration): the object to put at the `path`
+        """
+        eval(f'self{path[1:]} = val', {'self': self})
 
 
 @dataclass
 class Explanation:
-    """An abstract explanation with a description and an illustration."""
-    descr: Description = None
-    illus: Illustration = None
+    """An abstract explanation with a description and an illustration.
+
+    Args:
+        description (str): (optional) Describes what happens in a certain part
+        of a step by using a Markdown syntax. The description can contain
+        elements of the given illustration by using the Markdown image syntax,
+        e.g.  `'![alt text]($.factors[0] "Title Text")'`. Note that the url
+        part is replaced by Python code that leads to the element of the
+        illustration.  The root `Illustration` object is represented with `$`.
+
+        If `description` is `None`, the whole illustration will be used. This
+        is equivalent to passing `'!()[$]'` as `description`.
+        short (str): (optional) An abbreviated version of the description
+        illustration (Illustration): (optional) the illustration to which the
+        explanation can refer
+    """
+    description: str = None
+    short: str = None
+    illustration: Illustration = None
 
 
 @dataclass
