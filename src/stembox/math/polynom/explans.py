@@ -69,9 +69,12 @@ def SEARCH_VAR_EXPON_RESULT_DESCR(var_expons):
     descr = 'De exponent van '
 
     if len(var_expons) == 1:
-        descr = (descr + f'(variabele)[{list(var_expons.keys())[0]}] '
-                 + 'is ' + f'(exponent)[{list(var_expons.items())[0]}]')
+        descr += (f'(variabele)[{list(var_expons.keys())[0]}] '
+                  + 'is ' + f'(exponent)[{list(var_expons.items())[0]}]')
     else:
-        pass
-
+        descrs = ['(variabele)[{var_path}] is (exponent)[expon_path]'
+                  for var_path, expon_path in var_expons.items()]
+        descr += descrs[0]
+        descr += ', die van '.join(descrs[1:-1])
+        descr += ' en die van ' + descrs[-1]
     return descr

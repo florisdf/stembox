@@ -118,9 +118,10 @@ class Monomial(Expression):
 
     def solve_var_expons(self) -> Solution:
         """Return the solution for finding the exponents of each variable"""
-        # First step: write 1 at variables with no power
+        # 1. Write 1 as exponent of variables with no exponent
         solution = self.solve_unit_var_exponent()
 
+        # 2. Mark the exponents
         var_paths = self._get_var_paths()
 
         # PURPOSE
@@ -141,8 +142,13 @@ class Monomial(Expression):
         execution = Explanation(illustration=monom_exe)
 
         # RESULT
+        result = Explanation(
+            description=xpl.SEARCH_VAR_EXPON_RESULT_DESCR(var_expons),
+            illustration=deepcopy(monom_exe))
 
-        solution.append(Step(purpose=purpose, execution=execution))
+        solution.append(Step(purpose=purpose,
+                             execution=execution,
+                             result=result))
         return solution
 
     def solve_grade(self) -> Solution:
