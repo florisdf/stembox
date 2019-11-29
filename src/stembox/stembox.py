@@ -83,8 +83,8 @@ class Step:
 @dataclass
 class Solution:
     """A Directed Acyclic Graph (DAG) of `Step`s solving a given problem."""
-    def __init__(self):
-        self.steps = []
+    def __init__(self, steps=[]):
+        self.steps = steps
 
     def __getitem__(self, idx):
         return self.steps[idx]
@@ -113,4 +113,4 @@ class Solution:
         if len(self.steps) == 0:
             return ''
 
-        return self.steps[-1].result.descr.short
+        return self.steps[-1].result.description.short
