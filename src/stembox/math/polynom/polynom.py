@@ -53,9 +53,11 @@ def solve_vars(monomial: Monomial) -> Solution:
     purpose = Explanation(description=xpl.SEARCH_MONOM_VARS_PURP_DESCR())
 
     # EXECUTION
+    var_paths = _get_var_paths(monomial)
     monom_exe = deepcopy(monomial)
 
-    for i, var in enumerate(_get_vars(monom_exe)):
+    for i, var_path in enumerate(var_paths):
+        var = monom_exe.get_at_path(var_path)
         var.label = xpl.SEARCH_MONOM_VARS_EXEC_LABEL(i + 1)
         var.mark = i
 
@@ -63,17 +65,18 @@ def solve_vars(monomial: Monomial) -> Solution:
 
     # RESULT
     monom_res = deepcopy(monom_exe)
-    for var in _get_vars(monom_res):
+    for var_path in var_paths:
+        var = monom_res.get_at_path(var_path)
         var.label = None
 
     result = Explanation(
-        description=xpl.SEARCH_MONOM_VARS_RESULT_DESCR(
-            _get_var_paths(monom_res)),
+        description=xpl.SEARCH_MONOM_VARS_RESULT_DESCR(var_paths),
         illustration=monom_res)
 
-    return Solution([Step(purpose=purpose,
-                          execution=execution,
-                          result=result)])
+    return Solution(steps=[Step(purpose=purpose,
+                                execution=execution,
+                                result=result)],
+                    value=var_paths)
 
 
 def solve_unit_var_exponent(monomial: Monomial) -> Solution:
@@ -120,12 +123,18 @@ def solve_unit_var_exponent(monomial: Monomial) -> Solution:
         decription=xpl.UNIT_VAR_EXPONENT_RESULT_DESCR(),
         illustration=deepcopy(new_monomial))
 
-    return Solution([Step(purpose=purpose, execution=execution,
-                          result=result)])
+    return Solution(steps=[Step(purpose=purpose, execution=execution,
+                                result=result)],
+                    value=deepcopy(new_monomial))
 
 
 def solve_var_expons(monomial: Monomial) -> Solution:
-    """Return the solution for finding the exponents of each variable"""
+    """Return the solution for finding the exponents of each variable.
+
+    The solution value will contain a dict with the illustration paths of the
+    variables as key and the illustration path of the corresponding exponents
+    as value.
+    """
     # 1. Write 1 as exponent of variables with no exponent
     solution = solve_unit_var_exponent(monomial)
 
@@ -159,6 +168,7 @@ def solve_var_expons(monomial: Monomial) -> Solution:
     solution.append(Step(purpose=purpose,
                          execution=execution,
                          result=result))
+    solution.value = var_expons
     return solution
 
 
