@@ -21,20 +21,18 @@ class Factor(Expression):
     sign: Sign = Sign.POSITIVE
 
 
-@dataclass
 class Variable(Factor):
-    """
-    A variable, e.g. x, y or z.
-    """
-    symbol: str
+    """A variable, e.g. x, y or z."""
+    def __init__(self, symbol: str, **kwargs):
+        super().__init__(**kwargs)
+        self.symbol = symbol
 
 
-@dataclass
 class Brackets(Factor):
-    """
-    An expression contained inside brackets.
-    """
-    content: Expression
+    """An expression contained inside brackets."""
+    def __init__(self, content: Expression, **kwargs):
+        super().__init__(**kwargs)
+        self.content = content
 
 
 class Number(Factor):
@@ -42,33 +40,40 @@ class Number(Factor):
     A number, i.e. an int or float
     """
 
-    def __init__(self, value: Union[int, float]):
+    def __init__(self, value: Union[int, float], **kwargs):
+        super().__init__(**kwargs)
         self.absvalue = abs(value)
         self.sign = Sign.POSITIVE if value >= 0 else Sign.NEGATIVE
 
 
-@dataclass
 class Fraction(Factor):
     """
     A fraction with a numerator and a denominator, e.g. x / 3.
     """
-    numerator: Expression
-    denominator: Expression
+    def __init__(self, numerator: Expression, denominator: Expression,
+                 **kwargs):
+        super().__init__(**kwargs)
+        self.numerator = numerator
+        self.denominator = denominator
 
 
-@dataclass
 class Power(Factor):
     """
     A power with a base and an exponent, e.g. 2^x.
     """
-    base: Expression
-    exponent: Expression
+    def __init__(self, base: Expression, exponent: Expression,
+                 **kwargs):
+        super().__init__(**kwargs)
+        self.base = base
+        self.exponent = exponent
 
 
-@dataclass
 class Root(Factor):
     """
     An nth root of a certain expression, e.g. $\\sqrt(x - 3)$.
     """
-    radicand: Expression
-    index: Number
+    def __init__(self, radicand: Expression, index: Number,
+                 **kwargs):
+        super().__init__(**kwargs)
+        self.radicand = radicand
+        self.index = index
