@@ -23,7 +23,7 @@ def SEARCH_MONOM_VARS_RESULT_DESCR(var_paths):
 
 
 # Explicitely writing unit variable exponents where necessary
-def UNIT_VAR_EXPONENT_PURP_DESCR():
+def UNIT_VAR_EXPONENT_PURPOSE_DESCR():
     return 'Zorg dat elke variabele een expliciete exponent heeft'
 
 
@@ -42,7 +42,7 @@ def UNIT_VAR_EXPONENT_RESULT_DESCR():
 
 
 # Searching the exponents of the monomial variables
-def SEARCH_VAR_EXPON_PURP_DESCR(num_vars):
+def SEARCH_VAR_EXPON_PURPOSE_DESCR(num_vars):
     """
     Args:
         num_vars (int): the number of variables

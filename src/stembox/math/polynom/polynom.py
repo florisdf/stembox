@@ -58,7 +58,7 @@ def solve_find_vars(monomial: Monomial) -> Solution:
     """Return the solution for finding the variables in the given monomial.
     """
     # PURPOSE
-    purpose = Explanation(description=xpl.SEARCH_MONOM_VARS_PURP_DESCR())
+    purpose = Explanation(description=xpl.SEARCH_MONOM_VARS_PURPOSE_DESCR())
 
     # EXECUTION
     var_paths = _get_var_paths(monomial)
@@ -112,7 +112,7 @@ def solve_unit_var_exponent(monomial: Monomial,
 
     # PURPOSE
     purpose = Explanation(
-        description=xpl.UNIT_VAR_EXPONENT_PURP_DESCR()
+        description=xpl.UNIT_VAR_EXPONENT_PURPOSE_DESCR()
     )
 
     # EXECUTION
@@ -174,7 +174,7 @@ def solve_find_var_expons(monomial: Monomial,
 
     # PURPOSE
     purpose = Explanation(
-        description=xpl.SEARCH_VAR_EXPON_PURP_DESCR(len(var_paths)))
+        description=xpl.SEARCH_VAR_EXPON_PURPOSE_DESCR(len(var_paths)))
 
     # EXECUTION
     var_expons = {}
