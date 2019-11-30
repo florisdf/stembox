@@ -13,6 +13,12 @@ class Monomial(Expression):
         self.factors = factors
 
 
+class Polynomial(Expression):
+    def __init__(self, terms: List[Monomial], **kwargs):
+        super().__init__(**kwargs)
+        self.terms = terms
+
+
 def _get_var_paths(monomial: Monomial) -> List[str]:
     vars = []
     for i, f in enumerate(monomial.factors):
