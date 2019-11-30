@@ -82,7 +82,7 @@ def SEARCH_VAR_EXPON_RESULT_DESCR(var_expons):
 
 # Add exponents
 def ADD_EXPONENTS_PURPOSE_DESCR():
-    return f'Tel de exponenten op'
+    return 'Tel de exponenten op'
 
 
 def ADD_EXPONENTS_EXEC_ILLUSTR_LABEL(var_path: str):
@@ -105,3 +105,12 @@ def ADD_EXPONENTS_RESULT_DESCR(result_path: str):
         exponents
     """
     return f'De som van de exponenten is ![som van exponenten]({result_path})'
+
+
+# Find grade of monomial
+def FIND_MONOMIAL_GRADE_PURPOSE_DESCR():
+    return 'Zoek de graad van de eenterm'
+
+
+def FIND_MONOMIAL_GRADE_RESULT_DESCR(grade_path):
+    return f'De graad van de eenterm is ![graad van eenterm]({grade_path})'

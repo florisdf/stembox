@@ -234,10 +234,29 @@ def solve_add_exponents(monomial: Monomial,
                     value=exp_sum)
 
 
-def solve_grade(monomial: Monomial) -> Solution:
+def solve_find_grade(monomial: Monomial) -> Solution:
+    # PURPOSE
+    purpose = Explanation(description=xpl.FIND_MONOMIAL_GRADE_PURPOSE_DESCR())
+
+    # EXECUTION
     # Find variables
-    # var_sol = solve_vars(monomial)
+    vars_solution = solve_find_vars(monomial)
 
     # Find exponents of variables
+    var_paths = vars_solution.value
+    expon_solution = solve_find_var_expons(monomial, var_paths)
+
     # Sum exponents
-    pass
+    var_expons = expon_solution.value
+    sum_solution = solve_add_exponents(monomial, var_expons)
+
+    execution = [*vars_solution, *expon_solution, *sum_solution]
+
+    # RESULT
+    monom_grade = sum_solution.value
+    result = Explanation(
+        description=xpl.FIND_MONOMIAL_GRADE_RESULT_DESCR('$'),
+        illustration=monom_grade)
+
+    return Solution(purpose, execution, result,
+                    value=monom_grade)
