@@ -182,11 +182,11 @@ def solve_find_var_expons(monomial: Monomial,
     for i, var_path in enumerate(var_paths):
         if var_path.endswith('.base'):
             pow_path = var_path[:var_path.rfind('.base')]
-            power = eval(f'{monomial}{pow_path[1:]}')
+            power = eval(f'monomial{pow_path[1:]}')
             power.exponent.mark = power.base.mark
             power.exponent.label = xpl.SEARCH_VAR_EXPON_EXEC_LABEL(
                 var_path)
-            var_expons[var_path] = pow_path
+            var_expons[var_path] = pow_path + '.exponent'
     execution = Explanation(illustration=monom_exe)
 
     # RESULT
@@ -249,14 +249,17 @@ def solve_find_grade(monomial: Monomial) -> Solution:
     # Sum exponents
     var_expons = expon_solution.value
     sum_solution = solve_add_exponents(monomial, var_expons)
+    monom_grade = sum_solution.value
 
-    execution = [*vars_solution, *expon_solution, *sum_solution]
+    execution = Solution(steps=[*vars_solution,
+                                *expon_solution,
+                                *sum_solution],
+                         value=monom_grade)
 
     # RESULT
-    monom_grade = sum_solution.value
     result = Explanation(
         description=xpl.FIND_MONOMIAL_GRADE_RESULT_DESCR('$'),
         illustration=monom_grade)
 
-    return Solution(purpose, execution, result,
+    return Solution([Step(purpose, execution, result)],
                     value=monom_grade)

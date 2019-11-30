@@ -62,9 +62,15 @@ class Explanation:
         illustration (Illustration): (optional) the illustration to which the
         explanation can refer
     """
-    description: str = None
-    short: str = None
-    illustration: Illustration = None
+
+    def __init__(self, description: str = None, short: str = None,
+                 illustration: Illustration = None):
+        if description is None:
+            description = '![]($)'
+
+        self.description = description
+        self.short = short
+        self.illustration = illustration
 
 
 @dataclass
@@ -90,12 +96,12 @@ class Solution:
     """A Directed Acyclic Graph (DAG) of `Step`s solving a given problem.
 
     Args:
-        steps (list): a list of steps that lead to the solution
+        steps (List[Step]): a list of steps that lead to the solution
         value: a python object that contains the value of the solution. This is
         useful for when the value of the solution is needed for subsequent
         problems.
     """
-    def __init__(self, steps=[], value=None):
+    def __init__(self, steps: List[Step] = [], value=None):
         self.steps = steps
         self.value = value
 

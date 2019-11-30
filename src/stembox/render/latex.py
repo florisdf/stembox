@@ -94,7 +94,7 @@ def render_polynom(polynom: Polynomial, implicit_multiply=True):
     terms = polynom.terms
     tex = render_monomial(terms[0])
 
-    for term in terms:
+    for term in terms[1:]:
         if term.factors[0].sign == Sign.POSITIVE:
             tex += f'+{render_monomial(term)}'
         else:
@@ -122,15 +122,17 @@ def render_implication(impl: Implication):
 def render_expression(expr: Expression):
     """Render the given `Expression` into LaTeX format."""
     if isinstance(expr, Polynomial):
-        render_polynom(expr)
+        return render_polynom(expr)
     elif isinstance(expr, Monomial):
-        render_monomial(expr)
+        return render_monomial(expr)
+    elif isinstance(expr, Factor):
+        return render_factor(expr)
     elif isinstance(expr, Equation):
-        render_equation(expr)
+        return render_equation(expr)
     elif isinstance(expr, Equivalence):
-        render_equivalence(expr)
+        return render_equivalence(expr)
     elif isinstance(expr, Implication):
-        render_implication(expr)
+        return render_implication(expr)
     else:
         raise ValueError(f'Rendering of Expression of type '
                          f'{type(expr)} is not supported')
