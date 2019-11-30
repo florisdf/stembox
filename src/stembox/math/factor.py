@@ -45,6 +45,11 @@ class Number(Factor):
         self.absvalue = abs(value)
         self.sign = Sign.POSITIVE if value >= 0 else Sign.NEGATIVE
 
+    @property
+    def value(self):
+        return (self.absvalue if self.sign == Sign.POSITIVE
+                else -self.absvalue)
+
 
 class Fraction(Factor):
     """
