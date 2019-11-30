@@ -109,19 +109,6 @@ def render_equation(eqn: Equation):
             + render_expression(eqn.rhs))
 
 
-def render_expression(expr: Expression):
-    """Render the given `Expression` into LaTeX format."""
-    if isinstance(expr, Polynomial):
-        render_polynom(expr)
-    elif isinstance(expr, Monomial):
-        render_monomial(expr)
-    elif isinstance(expr, Equation):
-        render_equation(expr)
-    else:
-        raise ValueError(f'Rendering of Expression of type '
-                         f'{type(expr)} is not supported')
-
-
 def render_equivalence(equiv: Equivalence):
     return r'\Leftrightarrow '.join([render_expression(expr) + r'\\' + '\n'
                                      for expr in equiv.expressions])
@@ -130,3 +117,20 @@ def render_equivalence(equiv: Equivalence):
 def render_implication(impl: Implication):
     return r'\Rightarrow '.join([render_expression(expr) + r'\\' + '\n'
                                  for expr in impl.expressions])
+
+
+def render_expression(expr: Expression):
+    """Render the given `Expression` into LaTeX format."""
+    if isinstance(expr, Polynomial):
+        render_polynom(expr)
+    elif isinstance(expr, Monomial):
+        render_monomial(expr)
+    elif isinstance(expr, Equation):
+        render_equation(expr)
+    elif isinstance(expr, Equivalence):
+        render_equivalence(expr)
+    elif isinstance(expr, Implication):
+        render_implication(expr)
+    else:
+        raise ValueError(f'Rendering of Expression of type '
+                         f'{type(expr)} is not supported')
