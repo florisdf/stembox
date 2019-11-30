@@ -1,15 +1,17 @@
 """Representing and solving problems with polynomials."""
-from typing import List
+from typing import List, Dict
 from ..expression import Expression
 from copy import deepcopy
 from ...stembox import Solution, Step, Explanation
 from ..factor import Factor, Variable, Power, Fraction, Number
+from ..equation import Equation
 from ..logic import Equivalence
 from . import explans as xpl
 
 
 class Monomial(Expression):
-    def __init__(self, factors: List[Factor]):
+    def __init__(self, factors: List[Factor], **kwargs):
+        super().__init__(**kwargs)
         self.factors = factors
 
 
