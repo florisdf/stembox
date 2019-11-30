@@ -39,6 +39,11 @@ class Illustration:
         eval(f'self{path[1:]} = val', {'self': self})
 
 
+class ListIllustration(list, Illustration):
+    """An `Illustration` composed of multiple `Illustration`s
+    """
+
+
 @dataclass
 class Explanation:
     """An abstract explanation with a description and an illustration.

@@ -2,7 +2,7 @@
 from typing import List, Dict
 from ..expression import Expression
 from copy import deepcopy
-from ...stembox import Solution, Step, Explanation
+from ...stembox import Solution, Step, Explanation, ListIllustration
 from ..factor import Factor, Variable, Power, Fraction, Number
 from ..equation import Equation
 from ..logic import Equivalence
@@ -226,7 +226,7 @@ def solve_add_exponents(monomial: Monomial,
     exp_sum = Number(sum(exp.value for exp in expons))
     eqn = Equation(lhs=Polynomial([Monomial([exp]) for exp in expons]),
                    rhs=exp_sum)
-    execution = Explanation(illustration=[monom_exec, eqn],
+    execution = Explanation(illustration=ListIllustration([monom_exec, eqn]),
                             description=xpl.ADD_EXPONENTS_EXEC_DESCR('$[1]'))
 
     # RESULT
