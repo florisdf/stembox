@@ -201,6 +201,39 @@ def solve_find_var_expons(monomial: Monomial,
     return solution
 
 
+def solve_add_exponents(monomial: Monomial,
+                        var_expons: Dict[str, str]) -> Solution:
+    """Return the solution for adding the given exponents
+
+    The value of the returned `Solution` will be the sum of the exponents,
+    represented as a `Number` object.
+    """
+    # PURPOSE
+    purpose = Explanation(description=xpl.ADD_EXPONENTS_PURPOSE_DESCR())
+
+    # EXECUTION
+    monom_exec = deepcopy(monomial)
+    expons = [monom_exec.get_at_path(p) for _, p in var_expons.items()]
+
+    # Make a list of illustrations, where the first element contains the
+    # original monomial and the second element shows the addition. That way, we
+    # can still refer to the variables, which is necessary to explain for each
+    # of the exponents to which variable they originally belonged.
+    var_paths = [f'$[0]{var_path[1:]}' for var_path in var_expons.keys()]
+    for var_path, expon in zip(var_paths, expons):
+        expon.label = xpl.ADD_EXPONENTS_EXEC_ILLUSTR_LABEL(var_path)
+
+    exp_sum = Number(sum(exp.value for exp in expons))
+    eqn = Equation(lhs=Polynomial([Monomial([exp]) for exp in expons]),
+                   rhs=exp_sum)
+    execution = Explanation(illustration=[monom_exec, eqn],
+                            description=xpl.ADD_EXPONENTS_EXEC_DESCR('$[1]'))
+
+    # RESULT
+    return Solution(steps=[Step(purpose, execution)],
+                    value=exp_sum)
+
+
 def solve_grade(monomial: Monomial) -> Solution:
     # Find variables
     # var_sol = solve_vars(monomial)

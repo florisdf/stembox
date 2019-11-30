@@ -69,12 +69,39 @@ def SEARCH_VAR_EXPON_RESULT_DESCR(var_expons):
     descr = 'De exponent van '
 
     if len(var_expons) == 1:
-        descr += (f'(variabele)[{list(var_expons.keys())[0]}] '
-                  + 'is ' + f'(exponent)[{list(var_expons.items())[0]}]')
+        descr += (f'![variabele]({list(var_expons.keys())[0]}) '
+                  + 'is ' + f'[exponent]({list(var_expons.items())[0]})')
     else:
-        descrs = ['(variabele)[{var_path}] is (exponent)[expon_path]'
+        descrs = ['![variabele]({var_path}) is [exponent]({expon_path})'
                   for var_path, expon_path in var_expons.items()]
         descr += descrs[0]
         descr += ', die van '.join(descrs[1:-1])
         descr += ' en die van ' + descrs[-1]
     return descr
+
+
+# Add exponents
+def ADD_EXPONENTS_PURPOSE_DESCR():
+    return f'Tel de exponenten op'
+
+
+def ADD_EXPONENTS_EXEC_ILLUSTR_LABEL(var_path: str):
+    return f'exponent van ![variabele]({var_path})'
+
+
+def ADD_EXPONENTS_EXEC_DESCR(eqn_path: str):
+    """
+    Args:
+        eqn_path (str): the illustration path to the equation displaying the
+        summation of the exponents
+    """
+    return f'![optelling van de exponenten]({eqn_path})'
+
+
+def ADD_EXPONENTS_RESULT_DESCR(result_path: str):
+    """
+    Args:
+        result_path (str): the illustration path of the result of summing the
+        exponents
+    """
+    return f'De som van de exponenten is ![som van exponenten]({result_path})'
