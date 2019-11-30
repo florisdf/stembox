@@ -1,10 +1,9 @@
 """Illustrations for logic constructs like equivalences and implications"""
-from ..stembox import Illustration
 from .expression import Expression
 from typing import List
 
 
-class Implication(Illustration):
+class Implication(Expression):
     """Expressions where the previous always implies the next.
 
     Args:
@@ -16,7 +15,7 @@ class Implication(Illustration):
         self.expressions = expressions
 
 
-class Equivalence(Illustration):
+class Equivalence(Expression):
     """Expressions where the previous is always equivalent to the next.
 
     Args:
