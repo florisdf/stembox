@@ -54,7 +54,7 @@ def _get_no_expon_vars(monomial: Monomial) -> List[Variable]:
             for path in _get_no_expon_var_paths(monomial)]
 
 
-def solve_vars(monomial: Monomial) -> Solution:
+def solve_find_vars(monomial: Monomial) -> Solution:
     """Return the solution for finding the variables in the given monomial.
     """
     # PURPOSE
