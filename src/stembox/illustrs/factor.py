@@ -4,7 +4,13 @@ Module for factors
 from dataclasses import dataclass
 from enum import Enum
 from typing import Union
-from ..math.expression import Expression
+from .expression import Expression
+
+
+__all__ = [
+    'Sign', 'Factor', 'Variable', 'Brackets',
+    'Number', 'Fraction', 'Power', 'Root'
+]
 
 
 class Sign(Enum):

@@ -1,5 +1,5 @@
 """Module for parsing a string into an Expression object."""
-from ..math.expression import Expression
+from ..elements import Expression
 
 
 def parse(string: str) -> Expression:

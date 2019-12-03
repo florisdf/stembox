@@ -3,6 +3,11 @@ from .expression import Expression
 from typing import List
 
 
+__all__ = [
+    'Implication', 'Equivalence'
+]
+
+
 class Implication(Expression):
     """Expressions where the previous always implies the next.
 

@@ -1,6 +1,6 @@
-from ..stembox import Solution
-from .latex import render_expression
-from ..stembox import Explanation
+from .texout import render_expression
+from ..elements import Explanation
+from ..elements import Solution
 import re
 
 

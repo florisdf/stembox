@@ -1,7 +1,12 @@
 """
 Module for general math expressions
 """
-from ..stembox import Illustration
+from ..elements import Illustration
+
+
+__all__ = [
+    'Expression'
+]
 
 
 class Expression(Illustration):

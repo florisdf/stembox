@@ -1,9 +1,9 @@
-from ..math.expression import Expression
-from ..math.equation import Equation
-from ..math.logic import Equivalence, Implication
-from ..math.polynom.polynom import Monomial, Polynomial
-from ..math.factor import Factor, Sign, Variable, Brackets, Number, Fraction
-from ..math.factor import Power, Root
+from ..illustrs import Expression
+from ..illustrs import Equation
+from ..illustrs import Equivalence, Implication
+from ..illustrs import Monomial, Polynomial
+from ..illustrs import Factor, Sign, Variable, Brackets, Number
+from ..illustrs import Fraction, Power, Root
 
 
 def render_variable(variable: Variable):
