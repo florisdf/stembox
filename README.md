@@ -14,3 +14,11 @@ The commit messages are formatted using
 in `package.json`, so running `npm install` in the repo directory should 
 suffice to get the necessary tools. Feel free to read the 
 [docs](http://commitizen.github.io/cz-cli/) to learn more about commitizen.
+
+To activate commitizen automatically when running `git commit`, you should add
+this code to `.git/hooks/prepare-commit-msg`:
+
+```bash
+#!/bin/bash
+exec < /dev/tty && node_modules/.bin/git-cz --hook || true
+```
