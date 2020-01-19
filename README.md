@@ -16,22 +16,27 @@ van de graad bevatten.
 
 # De stappen van een `Solution`
 
-Een `Solution` heeft naast een attribuut `value` ook een attribuut `steps`. Dat attribuut bevat een lijst met stappen (`Step`-objecten) die leiden tot de oplossing. Een `Step` bestaat dan 
-weer uit **vier verklaringen** (`Explanation`s) die verduidelijken wat er in de 
-stap gebeurt:
+Een `Solution` heeft naast een attribuut `value` ook een attribuut `steps`. Dat
+attribuut bevat een lijst met stappen (`Step`-objecten) die leiden tot de
+oplossing. Een `Step` bestaat dan weer uit **vier verklaringen**
+(`Explanation`s) die verduidelijken wat er in de stap gebeurt:
 
 1. het doel (`purpose`);
 2. de uitvoering (`execution`);
 3. het resultaat (`result`);
 4. een controle (`check`).
 
-Die `Explanation`-objecten zijn de *bouwblokken* van de stap-per-stap-oplossingen in STEMbox. Je kan ze zien als een soort mini-lessen in de stijl van *Hoe Zit Het?*.
+Die `Explanation`-objecten zijn de *bouwblokken* van de
+stap-per-stap-oplossingen in STEMbox. Je kan ze zien als een soort mini-lessen
+in de stijl van *Hoe Zit Het?*.
 
 # De `description` van een `Explanation`
 
-Het belangrijkste attribuut van een `Explanation` is zijn `description`. Je kan het vergelijken met het Markdown-bestand dat je zou schrijven voor een les van *Hoe Zit Het?*. Om de uitleg duidelijker te maken, kan je in de
-tekst van `description` ook illustraties gebruiken. Dat doe je op een
-gelijkaardige manier als hoe je in Markdown afbeeldingen kan toevoegen (zie ook
+Het belangrijkste attribuut van een `Explanation` is zijn `description`. Je kan
+het vergelijken met het Markdown-bestand dat je zou schrijven voor een les van
+*Hoe Zit Het?*. Om de uitleg duidelijker te maken, kan je in de tekst van
+`description` ook illustraties gebruiken. Dat doe je op een gelijkaardige
+manier als hoe je in Markdown afbeeldingen kan toevoegen (zie ook
 [hier](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#images)):
 
 ```md
@@ -41,10 +46,12 @@ Hieronder staat een mooie afbeelding:
 ```
 
 In STEMbox gebruiken we geen urls om naar illustraties te verwijzen, maar
-verwijzen we vanuit het `description`-Attribuut van een `Explanation` naar het `illustration`-attribuut van diezelfde `Explanation`. Dat doen we met een syntax die
-gebaseerd is op [JSONPath](https://jsonpath.com/).
+verwijzen we vanuit het `description`-Attribuut van een `Explanation` naar het
+`illustration`-attribuut van diezelfde `Explanation`. Dat doen we met een
+syntax die gebaseerd is op [JSONPath](https://jsonpath.com/).
 
-Het resultaat van het oplossen van een vergelijking zou bijvoorbeeld de volgende `Explanation` kunnen bevatten:
+Het resultaat van het oplossen van een vergelijking zou bijvoorbeeld de
+volgende `Explanation` kunnen bevatten:
 
 ```
 {
@@ -65,29 +72,35 @@ Het resultaat van het oplossen van een vergelijking zou bijvoorbeeld de volgende
 }
 ```
 
-In het `description`-attribuut zie je `$.lhs` en `$.rhs` staan. Die verwijzen naar het `illustration`-attribuut.
-`$.lhs`, bijvoorbeeld, moet je interpreteren als: "plaats hier het attribuut `lhs` van het object in het `illustration`-attribuut. De attributen van een `Illustration` zijn zelf ook `Illustration`s, dus `$.lhs` is ook een `Illustration`.
+In het `description`-attribuut zie je `$.lhs` en `$.rhs` staan. Die verwijzen
+naar het `illustration`-attribuut.  `$.lhs`, bijvoorbeeld, moet je
+interpreteren als: "plaats hier het attribuut `lhs` van het object in het
+`illustration`-attribuut. De attributen van een
+[`Illustration`](src/stembox/elements/illustr.py) zijn zelf ook
+`Illustration`s, dus `$.lhs` is ook een `Illustration`.
 
-Uiteindelijk kan bovenstaande `Explanation` bijvoorbeeld omgezet worden naar de onderstaande markdown:
+Uiteindelijk kan bovenstaande `Explanation` bijvoorbeeld omgezet worden naar de
+onderstaande markdown:
 
 ```
 We vinden dat $x$ gelijk is aan $-3$.
 ```
 
+Merk op dat een `Illustration` kan bestaan uit meerdere `Illustration`s (zie de
+klasse `ListIllustration`), net als dat een vergelijking bestaat uit meerdere
+symbolen. De attributen `label` en `mark` zijn dan ook vooral interessant voor
+`Illustration`s die onderdeel zijn van een andere `Illustration`.
+
 # Van `Illustration` naar illustratie
 
-Een `Illustration` is slechts een abstracte voorstelling van een illustratie in de vorm van een Python-object. Uiteindelijk moet deze nog omgezet worden naar een echte illustratie. Dat is de taak van **renderers**. De renderers zijn verzameld in het [`stembox.io`](/io) package, meer bepaald in de modules die eindigen op `*out.py`. De naam van de module vertelt het formaat naar waar `Solution`s - en dus `Illustration`s - zullen worden omgezet.
-
-Omdat we illustraties abstract voorstellen, zouden we voor heel veel outputformaten een renderer kunnen schrijven.
-
-
-## De methodes van een `Illustration`
-
-Illustraties van een uitleg kunnen erg verschillen, gaande van een grafiek tot
-een vergelijking tot een combinatie van beide. Om geen beperkingen op te leggen
-aan illustraties, bestaat een `Illustration` uit algemene Python-objecten die
-kunnen opgevraagd en ingesteld worden met de methodes `get_at_path` en
-`set_at_path`, respectievelijk.
+Een `Illustration` is slechts een abstracte voorstelling van een illustratie in
+de vorm van een Python-object. Uiteindelijk moet deze nog omgezet worden naar
+een echte illustratie. Dat is de taak van **renderers**. De renderers zijn
+verzameld in het [`stembox.io`](src/stembox/io) package, meer bepaald in de modules die
+eindigen op `*out.py`. De naam van de module vertelt het formaat naar waar
+`Solution`s - en dus `Illustration`s - zullen worden omgezet. Het bestand
+[`mdout.py`](src/stembox/io/mdout.py), bijvoorbeeld, bevat renderers die
+`Sollution`-objecten kunnen omzetten naar Mardown-bestanden.
 
 ## `Illustration`s zelf verduidelijken met `label`s en `mark`s
 
@@ -100,11 +113,5 @@ Hiervoor dienen de attributen `label` en `mark` van de klasse `Illustration`.
 Met `label` kunnen we een korte tekstuele uitleg toevoegen aan de illustratie,
 zoals bij het aanduiden van een nulpunt op een grafiek.
 Het attribuut `mark` daarentegen is een globale categorie waarmee we kunnen
-aangeven dat bepaalde illustraties bij elkaar horen, net als termen die kunnen
+aangeven dat bepaalde illustraties bij elkaar horen, bijvoorbeeld termen die kunnen
 geschrapt worden in een vergelijking.
-
-Merk op dat een `Illustration` kan bestaan uit meerdere `Illustration`s (zie de
-klasse `ListIllustration`), net als dat een vergelijking bestaat uit meerdere
-symbolen. De attributen `label` en `mark` zijn dan ook vooral interessant voor
-`Illustration`s die onderdeel zijn van een andere `Illustration`.
-
